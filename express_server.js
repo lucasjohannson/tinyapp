@@ -9,7 +9,6 @@ function generateRandomString() {
   let shortUrl = Math.random().toString(36).substring(7);
   return shortUrl;
 }
-generateRandomString();
 
 app.set("view engine", "ejs");
 
@@ -53,7 +52,13 @@ app.post("/urls", (req, res) => {
   const r = generateRandomString();
   urlDatabase[r] = req.body.longURL; 
   console.log(urlDatabase);  // Log the POST request body to the console 
-  res.redirect(`/urls/${r}`);   // Respond with 'Ok' (we will replace this)
+  res.redirect(`/urls/${r}`);
+});
+
+app.post("/urls/:shortURL/delete", (req, res) => {
+  delete urlDatabase[req.params.shortURL];
+  console.log(urlDatabase);  // Log the POST request body to the console 
+  res.redirect("/urls");
 });
 
 
