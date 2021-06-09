@@ -11,18 +11,17 @@
   <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
-        <h5 class="card-title">TinyURL for: <%= longURL %></h5>
-        <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
-        <br/>
-        <p><a href= '/urls/new'> Create new URL </a></p>
+        <h5 class="card-title">Register Now</h5>
+        <form method="POST" action= <%=`/urls/${shortURL}`%>>
+          <h3>Edit</h3>
+          <label>Email: </label>
+          <input name="password" type="email" required/>
+          <label>Password: </label>
+          <input name="password" type="password" required/>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
       </div>
     <div class="card-footer text-muted">
-      <form method="POST" action= <%=`/urls/${shortURL}`%>>
-        <h3>Edit</h3>
-        <label>New URL: </label>
-        <input name="new" />
-        <button type="submit" class="btn btn-primary">Update URL</button>
-      </form>
     </div>
   </div>
   <!-- Bootstrap JS -->
