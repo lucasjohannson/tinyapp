@@ -19,10 +19,10 @@ const emailExists = function (email){
   for(const key of keys){
     const user = users[key];
     if (user.email === email){
-      return true;
+      return user.id;
     }
   }
-  return false;
+  return null;
 }
 
 app.set("view engine", "ejs");
@@ -111,8 +111,17 @@ app.post("/login", (req, res) => {
   //console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
-  
-  res.cookie('user_id', req.body.username);
+  const user = emailExists(email);
+  if(!user){
+    return res.status(403).send("email not found");
+  }
+  if(users[user].password !== password){
+    return res.status(403).send("incorrect password");
+  }
+
+  console.log("test: ", users[user]);
+  res.cookie('user_id', users[user].id);
+
   res.redirect("/urls");
 });
 
