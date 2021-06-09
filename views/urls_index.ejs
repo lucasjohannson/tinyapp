@@ -22,19 +22,17 @@
         </tr>
       </thead>
       <tbody>
-        <% for(let url in urls) { %>
+        <% for(let i = 0; i < userUrls.length; i ++) { %>
           <tr>
-            <td><%= url %></td>
-            <td><%= urls[url] %></td>
+            <td><%= userUrls[i] %></td>
+            <td><%= urls[userUrls[i]].longURL %> </td>
             <td>
-              <form method="GET" action=<%=`/urls/${url}`%>>
+              <form method="GET" action=<%=`/urls/${userUrls[i]}`%>>
                 <button type="submit" class="btn btn-outline-primary"> Edit </button>
               </form>
-
-              <!-- <p><a href= <%=`/urls/${url}`%>> Edit </a></p> -->
             </td>
             <td>
-              <form method="POST" action=<%=`/urls/${url}/delete`%>>
+              <form method="POST" action=<%=`/urls/${userUrls[i]}/delete`%>>
                 <button type="submit" class="btn btn-outline-danger"> Delete </button>
               </form>
             </td>
