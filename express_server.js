@@ -1,9 +1,10 @@
 const express = require("express");
+const bcrypt = require('bcrypt');
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const app = express();
 const PORT = 8080; // default port 8080
 
-const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser')
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -50,17 +51,17 @@ const users = {
   "userRandomID": {
     id: "userRandomID", 
     email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
+    password: '$2b$10$vPN8KssscSaMf49AwZ18o.XphfgLlc.mm.cHKaaOv8slUiSXHll6.'
   },
  "user2RandomID": {
     id: "user2RandomID", 
     email: "user2@example.com", 
-    password: "dishwasher-funk"
+    password: '$2b$10$vPN8KssscSaMf49AwZ18o.XphfgLlc.mm.cHKaaOv8slUiSXHll6.'
   },
   "a": {
     id: "a", 
     email: "a@a", 
-    password: "a"
+    password: '$2b$10$vPN8KssscSaMf49AwZ18o.XphfgLlc.mm.cHKaaOv8slUiSXHll6.'
   },
 }
 
@@ -149,7 +150,7 @@ app.post("/login", (req, res) => {
   if(!user){
     return res.status(403).send("email not found");
   }
-  if(users[user].password !== password){
+  if(!bcrypt.compareSync(password, users[user].password)){
     return res.status(403).send("incorrect password");
   }
 
@@ -165,9 +166,9 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+  const password = bcrypt.hashSync(req.body.password, 10);
   const email = req.body.email;
-  const password = req.body.password;
-  if(email.length === 0 || password.length === 0){
+  if(email.length === 0 || req.body.password.length === 0){
     return res.status(400).send("oops u forgot to fill in one of the fields");
   }
   console.log("email: ", email, "password: ", password);
